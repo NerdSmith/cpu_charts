@@ -2,13 +2,21 @@ package ru.vsu.cs.controller;
 
 import ru.vsu.cs.models.CPUDataModel;
 import ru.vsu.cs.models.CPUsTableModel;
+import ru.vsu.cs.utils.ArrayListUtils;
+import ru.vsu.cs.utils.CSVWriter;
 import ru.vsu.cs.view.View;
 
+import javax.imageio.IIOException;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Controller {
     private CPUDataModel dataModel;
@@ -31,13 +39,11 @@ public class Controller {
         editButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (tableModel.isEditable()) {
-                    tableModel.setEditable(false);
+                if (view.getCPUsTable().isEnabled()) {
                     view.getCPUsTable().setEnabled(false);
                     view.getEditTextField().setText("OFF");
                 }
                 else {
-                    tableModel.setEditable(true);
                     view.getCPUsTable().setEnabled(true);
                     view.getEditTextField().setText("ON");
                 }
@@ -62,10 +68,10 @@ public class Controller {
         cpusTable.setFillsViewportHeight(false);
         cpusTable.setDragEnabled(false);
 
-        tableModel = new CPUsTableModel(this.dataModel.getCPUsData(), this.dataModel.getHeader());
+        tableModel = new CPUsTableModel(dataModel.getCPUsData(), dataModel.getHeader());
         tableModel.addTableModelListener(e -> uploadDataToFile());
-        this.view.getCPUsTable().setModel(tableModel);
-        this.view.getCPUsTable().setEnabled(false);
+        cpusTable.setModel(tableModel);
+        cpusTable.setEnabled(false);
 
         // this.view.getCPUsTable().setModel(new DefaultTableModel(this.model.getCPUsData(), this.model.getHeader()));
 
@@ -84,23 +90,79 @@ public class Controller {
     }
 
     private void uploadDataToFile() {
+        System.out.println("uploading...");
         JTable cpusTable = view.getCPUsTable();
-        // TODO
+        tableModel = (CPUsTableModel) cpusTable.getModel();
+        String[] header = getHeader(cpusTable);
+        Object[][] data = getData(tableModel);
+
+        dataModel.setCPUsData(data);
+        dataModel.setHeader(header);
+
+        List<List<String>> allData = new ArrayList<>();
+        allData.add(Arrays.asList(header));
+        allData.addAll(ArrayListUtils.toList(data));
+
+
+
+        try {
+            printData(allData);
+            CSVWriter csvWriter = new CSVWriter(dataModel.getFilePath());
+            csvWriter.writeAll(allData);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        tableModel = (CPUsTableModel) cpusTable.getModel();
     }
 
-    private static String[][] readDataFromTableModel(DefaultTableModel tableModel) {
+    private void printData(List<List<String>> data) {
+        System.out.println(data);
+    }
+
+    private String[] getHeader(JTable table) {
+        int columnCount = table.getModel().getColumnCount();
+        String[] header = new String[columnCount];
+        for (int i = 0; i < columnCount; i++) {
+            header[i] = table.getColumnName(i);
+        }
+        return header;
+    }
+
+    private Object[][] getData(DefaultTableModel tableModel) {
         int rowCounts = tableModel.getRowCount();
         int colCount = tableModel.getColumnCount();
-        String[][] tableData = new String[rowCounts][colCount];
+        Object[][] tableData = new Object[rowCounts][colCount];
 
         for (int row = 0; row < rowCounts; row++) {
             for (int col = 0; col < colCount; col++) {
                 Object value = tableModel.getValueAt(row, col);
-                if (value != null) {
+                if (value == null || value == "" || value == " ") {
+                    tableData[row][col] = null;
+                }
+                else if (col == 0) {
                     tableData[row][col] = value.toString();
                 }
+                else if (col == 1) {
+                    try {
+                        tableData[row][col] = Integer.parseInt(value.toString());
+                    }
+                    catch (Exception e) {
+                        view.getCPUsTable().setValueAt(null, row, col);
+                        tableData[row][col] = null;
+                        System.out.println("Error tracing...");
+                        e.printStackTrace();
+                    }
+                }
                 else {
-                    tableData[row][col] = "";
+                    try {
+                        tableData[row][col] = Double.parseDouble(value.toString());
+                    }
+                    catch (Exception e) {
+                        view.getCPUsTable().setValueAt(null, row, col);
+                        tableData[row][col] = null;
+                        System.out.println("Error tracing...");
+                        e.printStackTrace();
+                    }
                 }
             }
         }

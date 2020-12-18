@@ -5,22 +5,26 @@ import java.io.IOException;
 import java.util.List;
 
 public class CSVWriter {
-    private static char separator = ',';
+    private final FileWriter csvFile;
+    private char separator = ',';
 
-    public CSVWriter(String fileName, List<List<String>> data) throws IOException {
-        writeDataToCSV(fileName, data, separator);
+    public CSVWriter(String filePath) throws IOException {
+        this.csvFile = new FileWriter(filePath);
     }
 
-    private static void writeDataToCSV(String fileName, List<List<String>> data, char separator) throws IOException {
-        FileWriter writer = new FileWriter(fileName);
+    public void writeAll(List<List<String>> data) throws IOException {
         for (List<String> line : data) {
             for (int i = 0; i < line.size(); i++) {
-                writer.append(line.get(i));
+                csvFile.append(line.get(i));
                 if (i < (line.size() - 1))
-                    writer.append(separator);
+                    csvFile.append(separator);
             }
-            writer.append(System.lineSeparator());
+            csvFile.append("\n");
         }
+        csvFile.close();
     }
 
+    public void setSeparator(char separator) {
+        this.separator = separator;
+    }
 }
