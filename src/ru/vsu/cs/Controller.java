@@ -80,7 +80,7 @@ public class Controller {
         JTable cpusTable = view.getCPUsTable();
         cpusTable.setCellSelectionEnabled(true);
         cpusTable.getTableHeader().setReorderingAllowed(false);
-        cpusTable.getTableHeader().setResizingAllowed(false);
+        cpusTable.getTableHeader().setResizingAllowed(true);
         cpusTable.setShowGrid(true);
         cpusTable.setIntercellSpacing(new Dimension(1, 1));
         cpusTable.setFillsViewportHeight(false);
