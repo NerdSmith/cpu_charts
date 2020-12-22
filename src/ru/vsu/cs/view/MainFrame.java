@@ -2,19 +2,18 @@ package ru.vsu.cs.view;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 
-public class View extends JFrame{
+public class MainFrame extends JFrame{
     private JPanel panelMain;
     private JTable CPUsTable;
     private JButton editButton;
-    private JButton showChartsButton;
     private JTextField editTextField;
+    private JButton addNewCPUButton;
+    private JButton deleteCPUButton;
+    private JButton changeDisplayModeButton;
+    private JButton showChartsButton;
 
-    public View() {
+    public MainFrame() {
         super("CPU charts");
         this.setContentPane(panelMain);
         this.setBounds(100, 100, 1000, 550);
@@ -31,7 +30,15 @@ public class View extends JFrame{
         return editButton;
     }
 
+    public JButton getAddNewCPUButton() {
+        return addNewCPUButton;
+    }
+
     public JTextField getEditTextField() {
         return editTextField;
+    }
+
+    public JButton getDeleteCPUButton() {
+        return deleteCPUButton;
     }
 }

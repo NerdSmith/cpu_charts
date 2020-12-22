@@ -24,58 +24,34 @@ public class CSVReader {
         return data;
     }
 
-    private List<String> readLine(String cvsLine) {
+    private List<String> readLine(String csvLine) {
         List<String> result = new ArrayList<>();
 
-        if (cvsLine == null && cvsLine.isEmpty()) {
+        if (csvLine == null && csvLine.isEmpty()) {
             return result;
         }
 
         StringBuffer curVal = new StringBuffer();
-        boolean inQuotes = false;
-        boolean startCollectChar = false;
-        boolean doubleQuotesInColumn = false;
 
-        char[] chars = cvsLine.toCharArray();
+        boolean inQuotes = false;
+
+        char[] chars = csvLine.toCharArray();
 
         for (char ch : chars) {
-
             if (inQuotes) {
-                startCollectChar = true;
-
                 if (ch == quote) {
                     curVal.append(quote);
                     inQuotes = false;
-                    doubleQuotesInColumn = false;
                 } else {
-
-                    if (ch == '\"') {
-
-                        if (!doubleQuotesInColumn) {
-                            curVal.append(ch);
-                            doubleQuotesInColumn = true;
-                        }
-                    } else {
-                        curVal.append(ch);
-                    }
+                    curVal.append(ch);
                 }
             } else {
-
                 if (ch == quote) {
                     inQuotes = true;
-
-                    if (chars[0] != '"' && quote == '\"') {
-                        curVal.append('"');
-                    }
-
-                    if (startCollectChar) {
-                        curVal.append('"');
-                    }
+                    curVal.append(quote);
                 } else if (ch == separator) {
                     result.add(curVal.toString());
-
                     curVal = new StringBuffer();
-                    startCollectChar = false;
                 } else if (ch == '\n') {
                     break;
                 } else {

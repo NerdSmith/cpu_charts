@@ -1,17 +1,16 @@
 package ru.vsu.cs.models;
 
-import ru.vsu.cs.utils.ArrayListUtils;
-
 import ru.vsu.cs.utils.CSVReader;
 
 import java.io.FileNotFoundException;
-import java.util.Arrays;
 import java.util.List;
 
 public class CPUDataModel {
     private String[] header;
     private Object[][] CPUsData;
     private String filePath = "src/ru/vsu/cs/data/CPUsdata.csv";
+    private final int NAME_COLUMN_NUMBER = 0;
+    private final int PRICE_COLUMN_NUMBER = 1;
 
     public CPUDataModel() throws FileNotFoundException {
         CSVReader csvReader = new CSVReader(filePath);
@@ -43,21 +42,20 @@ public class CPUDataModel {
 
     private Object[][] toArrayOfObjects(List<List<String>> rawData) {
         Object[][] data = new Object[rawData.size()][rawData.get(0).size()];
-        for (int i = 0; i < rawData.size(); i++) {
-            for (int j = 0; j < rawData.get(0).size(); j++) {
-                if (j == 1) {
-                    data[i][j] = Integer.valueOf(rawData.get(i).get(j));
+        for (int row = 0; row < rawData.size(); row++) {
+            for (int col = 0; col < rawData.get(0).size(); col++) {
+                String value = rawData.get(row).get(col);
+                if (value == null || value.isEmpty()) {
+                    data[row][col] = null;
                 }
-                else if (j > 1) {
-                    if (rawData.get(i).get(j).equals("")) {
-                        data[i][j] = null;
-                    }
-                    else {
-                        data[i][j] = Double.valueOf(rawData.get(i).get(j));
-                    }
+                else if (col == NAME_COLUMN_NUMBER){
+                    data[row][col] = value;
+                }
+                else if (col == PRICE_COLUMN_NUMBER) {
+                    data[row][col] = Integer.valueOf(value);
                 }
                 else {
-                    data[i][j] = rawData.get(i).get(j);
+                    data[row][col] = Double.valueOf(rawData.get(row).get(col));
                 }
             }
         }
