@@ -1,10 +1,9 @@
-package ru.vsu.cs.controller;
+package ru.vsu.cs;
 
-import ru.vsu.cs.models.CPUDataModel;
+import ru.vsu.cs.models.CPUsDataModel;
 import ru.vsu.cs.models.CPUsTableModel;
 import ru.vsu.cs.utils.ArrayListUtils;
 import ru.vsu.cs.utils.CSVWriter;
-import ru.vsu.cs.view.MainFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,11 +15,11 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Controller {
-    private CPUDataModel dataModel;
+    private CPUsDataModel dataModel;
     private CPUsTableModel tableModel;
     private MainFrame view;
 
-    public Controller(CPUDataModel model, MainFrame view) {
+    public Controller(CPUsDataModel model, MainFrame view) {
         this.dataModel = model;
         this.view = view;
     }

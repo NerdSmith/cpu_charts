@@ -1,4 +1,4 @@
-package ru.vsu.cs.view;
+package ru.vsu.cs;
 
 import javax.swing.*;
 import java.awt.*;

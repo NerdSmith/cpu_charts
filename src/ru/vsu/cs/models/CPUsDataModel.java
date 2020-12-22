@@ -5,14 +5,14 @@ import ru.vsu.cs.utils.CSVReader;
 import java.io.FileNotFoundException;
 import java.util.List;
 
-public class CPUDataModel {
+public class CPUsDataModel {
     private String[] header;
     private Object[][] CPUsData;
-    private String filePath = "src/ru/vsu/cs/data/CPUsdata.csv";
+    private final String filePath = "src/ru/vsu/cs/data/CPUsdata.csv";
     private final int NAME_COLUMN_NUMBER = 0;
     private final int PRICE_COLUMN_NUMBER = 1;
 
-    public CPUDataModel() throws FileNotFoundException {
+    public CPUsDataModel() throws FileNotFoundException {
         CSVReader csvReader = new CSVReader(filePath);
         List<List<String>> allData = csvReader.readAll();
 
