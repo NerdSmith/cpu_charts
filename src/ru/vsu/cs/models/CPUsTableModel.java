@@ -33,11 +33,11 @@ public class CPUsTableModel extends DefaultTableModel {
     }
 
     public Object[][] getData() {
-        int rowCounts = this.getRowCount();
+        int rowCount = this.getRowCount();
         int colCount = this.getColumnCount();
-        Object[][] tableData = new Object[rowCounts][colCount];
+        Object[][] tableData = new Object[rowCount][colCount];
 
-        for (int row = 0; row < rowCounts; row++) {
+        for (int row = 0; row < rowCount; row++) {
             for (int col = 0; col < colCount; col++) {
                 Object value = this.getValueAt(row, col);
                 if (value == null) {
