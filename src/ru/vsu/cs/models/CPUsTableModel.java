@@ -12,10 +12,10 @@ public class CPUsTableModel extends DefaultTableModel {
 
     @Override
     public Class<?> getColumnClass(int columnIndex) {
-        if (columnIndex == 0) {
+        if (columnIndex == NAME_COLUMN_NUMBER) {
             return String.class;
         }
-        else if (columnIndex == 1){
+        else if (columnIndex == PRICE_COLUMN_NUMBER){
             return Integer.class;
         }
         else {
