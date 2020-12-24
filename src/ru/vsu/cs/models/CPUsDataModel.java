@@ -9,8 +9,10 @@ public class CPUsDataModel {
     private String[] header;
     private Object[][] CPUsData;
     private final String filePath = "src/ru/vsu/cs/data/CPUsdata.csv";
-    private final int NAME_COLUMN_NUMBER = 0;
-    private final int PRICE_COLUMN_NUMBER = 1;
+
+    public final int NAME_COLUMN_NUMBER = 0;
+    public final int PRICE_COLUMN_NUMBER = 1;
+    //public final int FIRST_TEST_COLUMN_INDEX = 2;
 
     public CPUsDataModel() throws FileNotFoundException {
         CSVReader csvReader = new CSVReader(filePath);
@@ -18,26 +20,6 @@ public class CPUsDataModel {
 
         this.header = allData.get(0).toArray(new String[0]);
         this.CPUsData = toArrayOfObjects(allData.subList(1, allData.size()));
-    }
-
-    public String[] getHeader() {
-        return header;
-    }
-
-    public Object[][] getCPUsData() {
-        return CPUsData;
-    }
-
-    public void setHeader(String[] header) {
-        this.header = header;
-    }
-
-    public void setCPUsData(Object[][] CPUsData) {
-        this.CPUsData = CPUsData;
-    }
-
-    public String getFilePath() {
-        return filePath;
     }
 
     private Object[][] toArrayOfObjects(List<List<String>> rawData) {
@@ -60,5 +42,25 @@ public class CPUsDataModel {
             }
         }
         return data;
+    }
+
+    public void setHeader(String[] header) {
+        this.header = header;
+    }
+
+    public void setCPUsData(Object[][] CPUsData) {
+        this.CPUsData = CPUsData;
+    }
+
+    public String[] getHeader() {
+        return header;
+    }
+
+    public Object[][] getCPUsData() {
+        return CPUsData;
+    }
+
+    public String getFilePath() {
+        return filePath;
     }
 }

@@ -12,6 +12,8 @@ public class MainFrame extends JFrame{
     private JButton deleteCPUButton;
     private JButton changeDisplayModeButton;
     private JButton showChartsButton;
+    private JButton turnOffSortingButton;
+    private JTextField currentDisplayModeTextField;
 
     public MainFrame() {
         super("CPU charts");
@@ -40,5 +42,17 @@ public class MainFrame extends JFrame{
 
     public JButton getDeleteCPUButton() {
         return deleteCPUButton;
+    }
+
+    public JButton getChangeDisplayModeButton() {
+        return changeDisplayModeButton;
+    }
+
+    public JButton getTurnOffSortingButton() {
+        return turnOffSortingButton;
+    }
+
+    public JTextField getCurrentDisplayModeTextField() {
+        return currentDisplayModeTextField;
     }
 }

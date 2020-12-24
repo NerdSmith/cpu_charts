@@ -19,6 +19,8 @@ public class Controller {
     private CPUsTableModel tableModel;
     private MainFrame view;
 
+    private int currentDisplayMode = 0;
+
     public Controller(CPUsDataModel model, MainFrame view) {
         this.dataModel = model;
         this.view = view;
@@ -29,6 +31,8 @@ public class Controller {
         initEditButton();
         initAddNewCPUButton();
         initDeleteCPUButton();
+        initChangeDisplayModeButton();
+        initTurnOffSortingButton();
     }
 
     private void initDeleteCPUButton() {
@@ -91,8 +95,59 @@ public class Controller {
         cpusTable.setModel(tableModel);
         cpusTable.setEnabled(false);
         cpusTable.setAutoCreateRowSorter(true);
+        initCellRenderer();
     }
 
+    private void initCellRenderer() {
+        JTable cpusTable = view.getCPUsTable();
+        int colsCount = cpusTable.getColumnCount();
+        for (int colIndex = 2; colIndex < colsCount; colIndex++) {
+            cpusTable.getColumnModel().getColumn(colIndex).setCellRenderer(new PercentRenderer(currentDisplayMode,
+                                                                           dataModel.PRICE_COLUMN_NUMBER));
+        }
+    }
+
+    private void initTurnOffSortingButton() {
+        JButton turnOffSortingButton = view.getTurnOffSortingButton();
+        turnOffSortingButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                view.getCPUsTable().getRowSorter().setSortKeys(null);
+            }
+        });
+    }
+
+    private void initChangeDisplayModeButton() {
+        JButton changeDisplayModeButton = view.getChangeDisplayModeButton();
+        changeDisplayModeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                currentDisplayMode++;
+                currentDisplayMode = currentDisplayMode % 3;
+                setCellRendererForAllTestCols();
+                view.getCPUsTable().repaint();
+                if (currentDisplayMode == 0) {
+                    view.getCurrentDisplayModeTextField().setText("");
+                }
+                else if (currentDisplayMode == 1) {
+                    view.getCurrentDisplayModeTextField().setText("Performance percentages");
+                }
+                else if (currentDisplayMode == 2) {
+                    view.getCurrentDisplayModeTextField().setText("Price/Performance percentages");
+                }
+            }
+        });
+    }
+
+    private void setCellRendererForAllTestCols() {
+        JTable cpusTable = view.getCPUsTable();
+        int colsCount = cpusTable.getColumnCount();
+        for (int colIndex = 2; colIndex < colsCount; colIndex++) {
+            PercentRenderer cellRenderer = (PercentRenderer)
+                    cpusTable.getColumnModel().getColumn(colIndex).getCellRenderer();
+            cellRenderer.setCurrentDisplayMode(currentDisplayMode);
+        }
+    }
 
     private void uploadDataToFile() {
         JTable cpusTable = view.getCPUsTable();
@@ -115,5 +170,4 @@ public class Controller {
         }
         tableModel = (CPUsTableModel) cpusTable.getModel();
     }
-
 }
