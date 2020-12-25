@@ -23,8 +23,6 @@ public class CPUsTableModel extends DefaultTableModel {
         }
     }
 
-
-
     public String[] getHeader() {
         int columnCount = this.getColumnCount();
         String[] header = new String[columnCount];

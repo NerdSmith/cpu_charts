@@ -16,7 +16,11 @@ public class PercentRenderer extends DefaultTableCellRenderer {
     }
 
     @Override
-    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+    public Component getTableCellRendererComponent(JTable table,
+                                                   Object value,
+                                                   boolean isSelected,
+                                                   boolean hasFocus,
+                                                   int row, int column) {
         if (currentDisplayMode == 0) {
             return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
         }
@@ -73,9 +77,9 @@ public class PercentRenderer extends DefaultTableCellRenderer {
         for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
             Object testResult = tableModel.getValueAt(rowIndex, columnIndex);
             if (testResult != null) {
-                double v = Double.parseDouble(testResult.toString());
-                if (maxTestResult < v) {
-                    maxTestResult = v;
+                double tResult = Double.parseDouble(testResult.toString());
+                if (maxTestResult < tResult) {
+                    maxTestResult = tResult;
                 }
             }
         }

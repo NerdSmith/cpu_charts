@@ -32,7 +32,7 @@ public class Controller {
         initAddNewCPUButton();
         initDeleteCPUButton();
         initChangeDisplayModeButton();
-        initTurnOffSortingButton();
+        initDisableSortingButton();
     }
 
     private void initDeleteCPUButton() {
@@ -43,7 +43,7 @@ public class Controller {
                 if (view.getCPUsTable().isEnabled()) {
                     int selectedRow = view.getCPUsTable().getSelectedRow();
                     if (selectedRow != -1) {
-                        tableModel.removeRow(selectedRow);
+                        tableModel.removeRow(view.getCPUsTable().convertRowIndexToModel(selectedRow));
                     }
                 }
             }
@@ -107,9 +107,9 @@ public class Controller {
         }
     }
 
-    private void initTurnOffSortingButton() {
-        JButton turnOffSortingButton = view.getTurnOffSortingButton();
-        turnOffSortingButton.addActionListener(new ActionListener() {
+    private void initDisableSortingButton() {
+        JButton disableSortingButton = view.getDisableSortingButton();
+        disableSortingButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 view.getCPUsTable().getRowSorter().setSortKeys(null);
@@ -126,14 +126,16 @@ public class Controller {
                 currentDisplayMode = currentDisplayMode % 3;
                 setCellRendererForAllTestCols();
                 view.getCPUsTable().repaint();
-                if (currentDisplayMode == 0) {
-                    view.getCurrentDisplayModeTextField().setText("");
-                }
-                else if (currentDisplayMode == 1) {
-                    view.getCurrentDisplayModeTextField().setText("Performance percentages");
-                }
-                else if (currentDisplayMode == 2) {
-                    view.getCurrentDisplayModeTextField().setText("Price/Performance percentages");
+                switch (currentDisplayMode) {
+                    case 0:
+                        view.getCurrentDisplayModeTextField().setText("");
+                        break;
+                    case 1:
+                        view.getCurrentDisplayModeTextField().setText("Performance percentages");
+                        break;
+                    case 2:
+                        view.getCurrentDisplayModeTextField().setText("Price/Performance percentages");
+                        break;
                 }
             }
         });

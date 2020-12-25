@@ -12,7 +12,7 @@ public class MainFrame extends JFrame{
     private JButton deleteCPUButton;
     private JButton changeDisplayModeButton;
     private JButton showChartsButton;
-    private JButton turnOffSortingButton;
+    private JButton disableSortingButton;
     private JTextField currentDisplayModeTextField;
 
     public MainFrame() {
@@ -48,8 +48,8 @@ public class MainFrame extends JFrame{
         return changeDisplayModeButton;
     }
 
-    public JButton getTurnOffSortingButton() {
-        return turnOffSortingButton;
+    public JButton getDisableSortingButton() {
+        return disableSortingButton;
     }
 
     public JTextField getCurrentDisplayModeTextField() {
