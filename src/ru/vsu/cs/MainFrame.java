@@ -11,7 +11,6 @@ public class MainFrame extends JFrame{
     private JButton addNewCPUButton;
     private JButton deleteCPUButton;
     private JButton changeDisplayModeButton;
-    private JButton showChartsButton;
     private JButton disableSortingButton;
     private JTextField currentDisplayModeTextField;
 
